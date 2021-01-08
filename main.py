@@ -80,7 +80,7 @@ def makeListForTimeline(list,cpu):
             task = tasks_in_row[col][row]
             if len(tasks_in_row[col])<cpu:
                 row = cpu-row-1
-            jobs.append(dict(Name=task.name, Start=col, Finish=len(tasks_in_row), Row=row+1, Time=1))
+            jobs.append(dict(Name=task.name, Start=col, Finish=len(tasks_in_row), Row=row+1, Time=1, Di=task.di))
 
     for task in list:
         print(str(task.name)+", di*="+str(task.di)+", latency="+str(task.latency))
@@ -88,7 +88,7 @@ def makeListForTimeline(list,cpu):
     return jobs
 
 result = start(list)
-timeline_list = makeListForTimeline(result,3)
+timeline_list = makeListForTimeline(result,4)
 Lmax = max(node.latency for node in result)
 print("\nLMax = "+str(Lmax)+"\n")
 
