@@ -32,7 +32,7 @@ class Graph:
 
         nx.draw(
             G,
-            node_size=1500,
+            node_size=800,
             node_color=color_map,
             edgecolors='black',
             arrowsize=10,

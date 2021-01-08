@@ -7,6 +7,7 @@ class Node:
         self.parents = parents
         self.kids = kids
         self.time = time
+        self.di = None
         self.latency = None
         self.on_machine = False
 
