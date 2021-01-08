@@ -4,8 +4,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from node import Node
 from graph import Graph
-from data import *
-#from data2 import *
+#from data import *
+from data2 import *
 from networkx.drawing.nx_agraph import graphviz_layout
 import plotly.express as px
 
