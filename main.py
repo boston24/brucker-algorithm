@@ -71,13 +71,19 @@ def makeListForTimeline(list,cpu):
         for task in col:
             print(task.name, end=" ")
         print("\n")'''
+
+    for col in range(len(tasks_in_row)):
+        for row in range(len(tasks_in_row[col])):
+            task = tasks_in_row[col][row]
+            jobs.append(dict(Name=task.name, Start=col, Finish=len(tasks_in_row), Row=row+1, Time=1))
+
+    return jobs
         
 
 
 #for node in start(list):
 #    print(str(node.name)+", di="+str(node.di))
-makeListForTimeline(start(list),4)
 
 graph = Graph(start(list))
 graph.showGraph([])
-#graph.showTimeline(list_timetable)       
+graph.showTimeline(makeListForTimeline(start(list),4))       
