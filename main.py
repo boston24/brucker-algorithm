@@ -4,8 +4,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from node import Node
 from graph import Graph
-#from data import *
-from data2 import *
+from data import *
+#from data2 import *
 from networkx.drawing.nx_agraph import graphviz_layout
 import plotly.express as px
 
@@ -17,11 +17,14 @@ def start(list):
             return setDi(list)
 
 def setDi(list):
+    for node in list:
+        print(node.name)
     while any(x.di==None for x in list):
         for node in list:
             if node.kids:                  
-                if node.kids[0].di and node.di == None:
+                if node.kids[0].di and node.di==None:
                     node.di = max(1+node.kids[0].di,1-node.time)
+                    print("\n"+str(node.name)+", di*="+str(node.di))
                     #print("Set di "+str(node.di)+" to "+str(node.name))
     return list
 
@@ -54,7 +57,7 @@ def makeListForTimeline(list,cpu):
             cpu_temp = cpu
 
         for x in reversed(range(cpu_temp)):
-            print("Added "+str(to_add[x].name)+" to cpu no. "+str(i))
+            #print("Added "+str(to_add[x].name)+" to cpu no. "+str(i))
             to_add[x].on_machine = True
             tasks_in_row[i].append(to_add[x])
             for node in list:
@@ -75,15 +78,25 @@ def makeListForTimeline(list,cpu):
     for col in range(len(tasks_in_row)):
         for row in range(len(tasks_in_row[col])):
             task = tasks_in_row[col][row]
+            if len(tasks_in_row[col])<cpu:
+                row = cpu-row-1
             jobs.append(dict(Name=task.name, Start=col, Finish=len(tasks_in_row), Row=row+1, Time=1))
 
+    for task in list:
+        print(str(task.name)+", di*="+str(task.di)+", latency="+str(task.latency))
+
     return jobs
-        
 
+result = start(list)
+timeline_list = makeListForTimeline(result,3)
+Lmax = max(node.latency for node in result)
+print("\nLMax = "+str(Lmax)+"\n")
 
-#for node in start(list):
+#for node in result:
 #    print(str(node.name)+", di="+str(node.di))
 
-graph = Graph(start(list))
+graph = Graph(result)
 graph.showGraph([])
-graph.showTimeline(makeListForTimeline(start(list),4))       
+graph.showTimeline(timeline_list)       
+
+
